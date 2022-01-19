@@ -3,27 +3,30 @@ import Content from './Content';
 import Footer from './Footer';
 import SearchItem from './SearchItem';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddItem from './AddItem';
 
 function App() {
 
-  const [items, setItems] = useState(JSON.parse(localStorage.getItem('shoppinglist')));
+  const [items, setItems] = useState(JSON.parse(localStorage.getItem('shoppinglist')) || []);
 
   const[newItem, setNewItem] = useState('')
 
   const[search, setSearch] = useState('')
 
+  // when 'items' changes update localstorage (useEffect also runs on initial render)
+  useEffect(() => {
+    localStorage.setItem('shoppinglist', JSON.stringify(items));
+  },[items])
+
   const handleCheck = (id) => {
     const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
     setItems(listItems);
-    localStorage.setItem('shoppinglist', JSON.stringify(listItems));
   }
 
   const handleDelete = (id) => {
     const listItems = items.filter((item) => item.id !== id);
     setItems(listItems);
-    localStorage.setItem('shoppinglist', JSON.stringify(listItems));
   }
 
   const addItem = (thisItem) => {
@@ -31,7 +34,6 @@ function App() {
     const theNewItem = {id: id, checked: false, item: thisItem}
     const listItems = [...items, theNewItem]
     setItems(listItems)
-    localStorage.setItem('shoppinglist', JSON.stringify(listItems));
   }
 
   const handleSubmit = (e) => {
