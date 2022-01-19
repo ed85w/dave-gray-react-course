@@ -3,7 +3,8 @@ import ItemList from "./ItemList"
 const Content = ( {items, handleCheck, handleDelete} ) => {
 
   return (
-    <main>
+    // <> is a fragment 
+    <> 
       {items.length ? (
         <ItemList 
           items={items}
@@ -13,7 +14,7 @@ const Content = ( {items, handleCheck, handleDelete} ) => {
       ) : (
         <div className="no-items">No Items Today!</div>
       )}
-    </main>
+    </>
   )
 }
 
